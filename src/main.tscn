@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://dfhik3mbkio31"]
 
-[ext_resource type="Script" path="res://Main.gd" id="1_o526o"]
-[ext_resource type="PackedScene" uid="uid://dtpw20p4c4p3p" path="res://world.tscn" id="2_orbwc"]
-[ext_resource type="PackedScene" uid="uid://bq7qajqfbaku1" path="res://player.tscn" id="3_7vclc"]
-[ext_resource type="Script" path="res://camera.gd" id="4_0quj2"]
+[ext_resource type="Script" path="res://src/Main.gd" id="1_o526o"]
+[ext_resource type="PackedScene" uid="uid://dtpw20p4c4p3p" path="res://src/world.tscn" id="2_orbwc"]
+[ext_resource type="PackedScene" uid="uid://bq7qajqfbaku1" path="res://src/player.tscn" id="3_7vclc"]
+[ext_resource type="Script" path="res://src/camera.gd" id="4_0quj2"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o526o")

@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bq7qajqfbaku1"]
 
 [ext_resource type="Texture2D" uid="uid://b8b6tdu8lyyv5" path="res://assets/wizard_sprite_blue_sheet.png" id="1_8iee4"]
-[ext_resource type="Script" path="res://player.gd" id="1_mx47j"]
+[ext_resource type="Script" path="res://src/player.gd" id="1_mx47j"]
 [ext_resource type="Texture2D" uid="uid://r3wmttmue7hu" path="res://icon.svg" id="3_aqkyo"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_os4sy"]
