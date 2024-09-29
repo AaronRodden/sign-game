@@ -10,11 +10,12 @@ func _ready():
 	startOffsetPosition = global_position
 
 func _physics_process(_delta):
-	UpdateCamera()
+	pass
+	#UpdateCamera()
 
+# TODO: Implement zooming in/out camera
 func UpdateCamera():
 	var currentCell = ((player.global_position - startOffsetPosition) / screenSize).floor()
-	print(currentCell)
 	global_position = startOffsetPosition + (currentCell * screenSize)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
