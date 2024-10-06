@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://dfhik3mbkio31"]
+[gd_scene load_steps=5 format=3 uid="uid://dfhik3mbkio31"]
 
 [ext_resource type="Script" path="res://src/Main.gd" id="1_o526o"]
 [ext_resource type="PackedScene" uid="uid://dtpw20p4c4p3p" path="res://src/world.tscn" id="2_orbwc"]
 [ext_resource type="Script" path="res://src/camera.gd" id="4_0quj2"]
+[ext_resource type="PackedScene" uid="uid://eyap8igu0xjq" path="res://src/hud.tscn" id="4_bh5ma"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_o526o")
@@ -10,8 +11,17 @@ script = ExtResource("1_o526o")
 [node name="World" parent="." instance=ExtResource("2_orbwc")]
 
 [node name="Camera2D" type="Camera2D" parent="."]
-position = Vector2(-452, 0)
+position = Vector2(-1150, -5)
 anchor_mode = 0
-zoom = Vector2(0.56, 0.56)
+zoom = Vector2(0.327, 0.327)
 script = ExtResource("4_0quj2")
 screenSize = null
+
+[node name="HUD" parent="." instance=ExtResource("4_bh5ma")]
+offset_left = 86.0
+offset_top = 1174.0
+offset_right = 86.0
+offset_bottom = 1174.0
+
+[connection signal="collect_bronze" from="World" to="." method="_on_world_collect_bronze"]
+[connection signal="collect_gold" from="World" to="." method="_on_world_collect_gold"]

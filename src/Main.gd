@@ -26,3 +26,11 @@ func spawn_player(player: String):
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	pass
+
+
+func _on_world_collect_bronze():
+	$HUD.update_bronze_count()
+
+
+func _on_world_collect_gold():
+	$HUD.update_gold_count()

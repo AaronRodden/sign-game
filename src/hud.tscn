@@ -1,0 +1,30 @@
+[gd_scene load_steps=2 format=3 uid="uid://eyap8igu0xjq"]
+
+[ext_resource type="Script" path="res://src/hud.gd" id="1_e0t82"]
+
+[node name="HUD" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_e0t82")
+
+[node name="Bronze Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 11.0
+offset_top = 238.0
+offset_right = 586.0
+offset_bottom = 413.0
+theme_override_font_sizes/font_size = 128
+text = "Bronze: 0"
+
+[node name="Gold Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 22.0
+offset_top = 420.0
+offset_right = 450.0
+offset_bottom = 595.0
+theme_override_font_sizes/font_size = 128
+text = "Gold: 0"
