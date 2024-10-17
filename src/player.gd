@@ -6,6 +6,22 @@ const JUMP_VELOCITY = -600.0
 var lookvector = Vector2.ZERO
 var pickaxe_position = Vector2.ZERO
 
+# players velocity 
+#var velocity = Vector2()
+# forces acted on the player
+@export var moveSpeed = 700
+@export var gravity = 20
+@export var jumpForce = 600
+# variables to increase the min jumpheight and acceleration/decceleration
+@export var minJump = 300
+@export var moveAcceleration = 0.05
+@export var moveDecceleration = 0.05
+# Buffering stuff
+var canJump = false
+@export var coyoteTime = 0.1
+@export var jumpBuffer = 0.2
+var hasPressedJump = false
+
 var player_id
 
 var tilemap
@@ -13,7 +29,7 @@ var cell
 var tile_data
 
 # Get the gravity from the project settings to be synced with RigidBody nodes.
-var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
+#var gravity = ProjectSettings.get_setting("physics/2d/default_gravity")
 
 func init(player_str: String):
 	player_id = player_str
@@ -22,6 +38,10 @@ func _ready():
 	tilemap = get_parent().get_node("World")
 	
 func _process(delta):
+	# Movemenet / jumping functions
+	_checksIfPlayerOnFloor()
+	_checkPlayerMovements()
+	_checkJump()
 	
 	# TODO: Don't love how this is done, weird mix of pixel based vs tile coordinate based
 	# Use map to local?
@@ -71,23 +91,62 @@ func _process(delta):
 		tilemap.tile_hit(cell, tile_data)
 
 func _physics_process(delta):
-	# Add the gravity.
-	if not is_on_floor():
-		velocity.y += gravity * delta
-
-	# Handle jump.
-	if Input.is_action_just_pressed(player_id + "_square") and is_on_floor():
-		velocity.y = JUMP_VELOCITY 
-
-	# Get the input direction and handle the movement/deceleration.
-	# As good practice, you should replace UI actions with custom gameplay actions.
+	velocity.y += gravity
 	
-	## TODO: Implement hold button to hold position
-	#if not Input.is_action_pressed(player_id + "_cross"):
-	var direction = Input.get_axis(player_id + "_left", player_id + "_right")
-	if direction:
-		velocity.x = direction * SPEED
-	else:
-		velocity.x = move_toward(velocity.x, 0, SPEED)
-
 	move_and_slide()
+	
+	### Default movement / jump code 
+	## Add the gravity.
+	#if not is_on_floor():
+		#velocity.y += gravity * delta
+#
+	## Handle jump.
+	#if Input.is_action_just_pressed(player_id + "_square") and is_on_floor():
+		#velocity.y = JUMP_VELOCITY 
+#
+	## Get the input direction and handle the movement/deceleration.
+	## As good practice, you should replace UI actions with custom gameplay actions.
+	#
+	### TODO: Implement hold button to hold position
+	##if not Input.is_action_pressed(player_id + "_cross"):
+	#var direction = Input.get_axis(player_id + "_left", player_id + "_right")
+	#if direction:
+		#velocity.x = direction * SPEED
+	#else:
+		#velocity.x = move_toward(velocity.x, 0, SPEED)
+#
+	#move_and_slide()
+	
+	
+func _checksIfPlayerOnFloor():
+	if is_on_floor():
+		canJump = true
+	else:
+		if canJump == true:
+			await get_tree().create_timer(coyoteTime).timeout
+			canJump = false
+			
+func _checkPlayerMovements():
+	var xDir = Input.get_axis(player_id + "_left", player_id + "_right")
+	if xDir != 0:
+		velocity.x = lerp(velocity.x, xDir * moveSpeed, moveAcceleration)
+	elif xDir == 0 and !is_on_floor():
+		velocity.x = lerp(velocity.x, 0.0, moveDecceleration/2)
+	else:
+		velocity.x = lerp(velocity.x, 0.0, moveDecceleration)
+		
+func _checkJump():
+	# checks if the player has pressed jump
+	if Input.is_action_just_pressed(player_id + "_square") and hasPressedJump == false:
+		hasPressedJump = true
+		await get_tree().create_timer(jumpBuffer).timeout
+		hasPressedJump = false
+	
+	# if is on ground and has pressed jump within jump buffer, jump
+	if hasPressedJump and canJump:
+		velocity.y = -jumpForce
+		canJump = false
+	
+	# jump variatiom
+	if Input.is_action_just_released(player_id + "_square") and velocity.y < -minJump:
+		velocity.y = -minJump
